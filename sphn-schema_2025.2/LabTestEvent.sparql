@@ -1,0 +1,29 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?LabTestEvent ?SubjectPseudoIdentifier ?SubjectPseudoIdentifier_Identifier ?DataProvider_InstitutionCode_Name ?AdministrativeCase ?AdministrativeCase_Identifier ?ReportDateTime ?DateTime ?LabTest_Code_Label ?LabResult_Quantity_Value ?LabResult_Quantity_Unit ?LabResult_Reference ?LabResult_String ?LabResult_Code_Label
+
+WHERE {
+	    ?LabTestEvent a sphn:LabTestEvent .
+   		OPTIONAL { ?LabTestEvent sphn:hasSubjectPseudoIdentifier ?SubjectPseudoIdentifier.
+       			Optional { ?SubjectPseudoIdentifier sphn:hasIdentifier ?SubjectPseudoIdentifier_Identifier . }
+    			OPTIONAL { ?SubjectPseudoIdentifier sphn:hasDataProvider/sphn:hasInstitutionCode/sphn:hasName ?DataProvider_InstitutionCode_Name .}}
+    	optional { ?LabTestEvent sphn:hasAdministrativeCase ?AdministrativeCase . 
+        		optional { ?AdministrativeCase sphn:hasIdentifier ?AdministrativeCase_Identifier . }}
+        optional { ?LabTestEvent sphn:hasReportDateTime ?ReportDateTime . }
+    	optional { ?LabTestEvent sphn:hasDateTime ?DateTime . }
+    	optional { ?LabTestEvent sphn:hasLabTest ?LabTest .
+        		optional { ?LabTest sphn:hasCode ?LabTest_Code .
+            			optional { ?LabTest_Code rdf:type/rdfs:label ?LabTest_Code_Label .}}
+        		optional { ?LabTest sphn:hasResult ?LabResult .
+        				optional { ?LabResult sphn:hasQuantity ?LabResult_Quantity .
+        						optional { ?LabResult_Quantity sphn:hasValue ?LabResult_Quantity_Value. }
+    							optional { ?LabResult_Quantity sphn:hasUnit/sphn:hasCode/rdf:type/rdfs:label ?LabResult_Quantity_Unit. }}
+            			optional { ?LabResult sphn:hasNumericalReference ?LabResult_Reference . }	
+            			optional { ?LabResult sphn:hasStringValue ?LabResult_String . }
+            			optional { ?LabResult sphn:hasCode ?LabResult_Code . 
+                				optional { ?LabResult_Code rdf:type/rdfs:label ?LabResult_Code_Label .}}}}
+}
+    
+    

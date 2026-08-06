@@ -1,0 +1,28 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX snomed: <http://snomed.info/id/>
+PREFIX sphn: <https://biomedit.ch/rdf/sphn-schema/sphn#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#>
+
+DELETE {
+  ?codeResource rdf:type ?oldCodeUri .
+}
+INSERT {
+  ?codeResource rdf:type ?newCodeUri .
+}
+WHERE {
+  # 1. Identify the diagnosis and its code resource
+  ?diagnosis a sphn:Diagnosis ;
+             sphn:hasCode ?codeResource .
+  
+  # 2. Extract the current URI assigned as the type
+  ?codeResource rdf:type ?oldCodeUri .
+  
+  # 3. Apply the strict filters we verified
+  FILTER(STRSTARTS(STR(?oldCodeUri), "http://www.orpha.net/ORDO/"))
+  FILTER(!CONTAINS(STR(?oldCodeUri), "Orphanet_"))
+  
+  # 4. Generate the corrected URI
+  BIND(IRI(REPLACE(STR(?oldCodeUri), "ORDO/", "ORDO/Orphanet_")) AS ?newCodeUri)
+}
