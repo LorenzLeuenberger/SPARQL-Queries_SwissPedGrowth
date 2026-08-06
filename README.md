@@ -1,6 +1,6 @@
 # SPARQL Queries in SwissPedGrowth
 
-This repository shows the SPARQL queries that were used to flatten concepts of Resource Description Framework (RDF) data in the SwissPedGrowth project. 
+This repository contains the SPARQL queries that were used to flatten concepts of Resource Description Framework (RDF) data in the SwissPedGrowth project. 
 RDF graph data was received from the SwissPedHealth National Data Stream ([www.swisspedhealth.com](https://www.swisspedhealth.com/)) in the [RDF Schema](https://git.dcc.sib.swiss/sphn-semantic-framework/sphn-schema/-/tree/master/rdf_schema?ref_type=heads) of the Swiss Personalized Health Network ([SPHN](https://sphn.ch/de/home/)).
 
 
